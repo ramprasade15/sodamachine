@@ -48,27 +48,4 @@ public class SodamachineControllerAdvice extends ResponseEntityExceptionHandler 
         return error;
     }
 
-    @ExceptionHandler(value = { OutOfQuartersException.class })
-    public @ResponseBody ExceptionResponse handleInsufficientQuartersException(OutOfQuartersException ex) {
-        ExceptionResponse error = new ExceptionResponse();
-        List<String> errorMessageinfo = new ArrayList<>();
-        errorMessageinfo.add(ex.getMessage());
-        error.setTimeStamp(new Date());
-        error.setStatus(HttpStatus.BAD_REQUEST.toString());
-        error.setErrorMessage(errorMessageinfo);
-
-        return error;
-    }
-    @ExceptionHandler(value = { Exception.class })
-    public @ResponseBody ExceptionResponse handleInsufficientQuartersException(Exception ex) {
-        ExceptionResponse error = new ExceptionResponse();
-        List<String> errorMessageinfo = new ArrayList<>();
-        errorMessageinfo.add(ex.getMessage());
-        error.setTimeStamp(new Date());
-        error.setStatus(HttpStatus.BAD_REQUEST.toString());
-        error.setErrorMessage(errorMessageinfo);
-
-        return error;
-    }
-
 }

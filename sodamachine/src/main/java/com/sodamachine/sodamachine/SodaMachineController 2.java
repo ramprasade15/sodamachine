@@ -22,10 +22,10 @@ public class SodaMachineController {
     }
 
     @PutMapping("/soldSoda/{sodaMachineId}")
-    public SodaSoldReceipt updateSoldSodaMache(
+    public Soda updateSoldSodaMache(
             @NotNull @PathVariable String sodaMachineId,
-            @Valid @RequestBody SodaPurchaseRequest sodaPurchaseRequest) throws Exception {
-        return sodaMachineService.updateSoldSodaMachine(sodaMachineId, sodaPurchaseRequest);
+            @Valid @RequestBody SodaPurchaseRequest sodaPurchaseRequest) throws SodaSoldOutException {
+        return sodaMachineService.updateSodaMachine(sodaMachineId, sodaPurchaseRequest);
     }
 
     @PutMapping("/sodamachine/{sodaMachineId}")
@@ -41,16 +41,6 @@ public class SodaMachineController {
     @GetMapping("sodasalelist/{date}")
     public List<SodaSoldDate> getSodaSaleReport(@PathVariable String date){
         return sodaMachineService.getSodaSalesByDate(date);
-    }
-
-    @PutMapping("/sodamachine/addquarters/{sodaMachineId}")
-    public Quarters updateQuartersToMachine(@NotNull @PathVariable String sodaMachineId,@RequestBody Quarters quarters){
-        return sodaMachineService.updateQuartersToMachine(sodaMachineId, quarters);
-    }
-
-    @PostMapping("/sodamachine/insertquarters")
-    public List<Quarters>  addQuartersToMachine(@RequestBody List<Quarters> quartersList){
-        return sodaMachineService.addQuartersToMachine(quartersList);
     }
 
 }

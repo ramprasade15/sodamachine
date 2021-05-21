@@ -12,7 +12,5 @@ public interface SodaRepo extends CrudRepository<Soda, Integer> {
 
     List<Soda> findBySodaMachineId(String machineId);
     Soda save (Soda soda);
-
-    Soda findBySodaName(String sodaName);
     //List<Soda> saveAll(List<Soda> sodaList);
 }

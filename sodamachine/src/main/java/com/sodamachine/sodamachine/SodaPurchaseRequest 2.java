@@ -12,8 +12,10 @@ import java.io.Serializable;
 @Data
 public class SodaPurchaseRequest implements Serializable {
     private Double sodaPrice;
-    @NotNull(message ="please insert Quarters or  1 dollar  or 5 dollar bills")
-    private Double moneyInserted;
+    @NotNull(message ="please insert exactly 8 Quarters")
+    @Min(value= 8, message ="Please re-insert exactly 8 Quarters.")
+    @Max(value= 8, message ="Please re-insert exactly 8 Quarters.")
+    private Integer noOfQuarters;
     private String sodaName;
 
 }
