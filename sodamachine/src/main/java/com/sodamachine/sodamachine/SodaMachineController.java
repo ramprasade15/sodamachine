@@ -53,4 +53,9 @@ public class SodaMachineController {
         return sodaMachineService.addQuartersToMachine(quartersList);
     }
 
+    @GetMapping("/sodamachine/quarters/{sodaMachineId}")
+    public Quarters  getQuartersCount(@PathVariable String sodaMachineId){
+        return sodaMachineService.getQuartersCount(sodaMachineId);
+    }
+
 }

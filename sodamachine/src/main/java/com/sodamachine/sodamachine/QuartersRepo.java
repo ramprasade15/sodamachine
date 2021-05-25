@@ -9,4 +9,5 @@ import javax.transaction.Transactional;
 @Transactional
 public interface QuartersRepo extends PagingAndSortingRepository<Quarters,Integer> {
     Quarters findBySodaMachineId(String machineId);
+    Quarters save(Quarters quarters);
 }

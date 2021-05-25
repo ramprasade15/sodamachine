@@ -68,11 +68,12 @@ public class SodaMachineServiceImpl implements SodaMachineService{
             sodaSoldDate.setSodaName(sodaPurchaseRequest.getSodaName());
             sodaSoldDate.setSodaMachineId(sodaMachineId);
             sodaSoldDateList.add(sodaSoldDate);
-
-            Integer noOfQuarters = quartersRepo.findBySodaMachineId(sodaMachineId).getQuartersCount();
+            List<Quarters> quartersList = new ArrayList<>();
+            Quarters quarters = quartersRepo.findBySodaMachineId(sodaMachineId);
+            Integer noOfQuarters = quarters.getQuartersCount();
             Double countNoOfQuartersToReturn = ((sodaPurchaseRequest.getMoneyInserted() - sodaResult.getSodaPrice()) / 0.25);
             Integer noOfQuartersToReturn = countNoOfQuartersToReturn.intValue();
-            if (noOfQuartersToReturn < noOfQuarters && sodaResult != null && sodaResult.getSodaCount() != 0 &&
+            if (noOfQuartersToReturn <= noOfQuarters && sodaResult != null && sodaResult.getSodaCount() != 0 &&
                     sodaResult.getSodaName().equals(sodaPurchaseRequest.getSodaName())) {
                 soda.setId(sodaResult.getId());
                 soda.setSodaMachineId(sodaMachineId);
@@ -80,7 +81,9 @@ public class SodaMachineServiceImpl implements SodaMachineService{
                 soda.setSodaPrice(sodaResult.getSodaPrice());
                 soda.setSodaCount(sodaResult.getSodaCount() - 1);
                 soda.setSodaSoldDateList(sodaSoldDateList);
+                quarters.setQuartersCount(noOfQuarters - noOfQuartersToReturn);
                 Soda soldSoda = sodaRepo.save(soda);
+                quarters = quartersRepo.save(quarters);
                 if(soldSoda != null){
                     sodaSoldReceipt.setSodaMachineId(soldSoda.getSodaMachineId());
                     sodaSoldReceipt.setTransactionId(soldSoda.getSodaSoldDateList().get(0).getId().toString());
@@ -147,14 +150,22 @@ public class SodaMachineServiceImpl implements SodaMachineService{
 
     @Override
     public Quarters updateQuartersToMachine(String sodaMachineId, Quarters quarters) {
-        Integer noOfQuarters = quartersRepo.findBySodaMachineId(sodaMachineId).getQuartersCount();
+        Quarters quarters1 = quartersRepo.findBySodaMachineId(sodaMachineId);
+        Integer noOfQuarters =quarters1.getQuartersCount();
         quarters.setQuartersCount(noOfQuarters+quarters.getQuartersCount());
+        quarters.setId(quarters1.getId());
+        quarters.setSodaMachineId(sodaMachineId);
         return quartersRepo.save(quarters);
     }
 
     @Override
     public List<Quarters> addQuartersToMachine(List<Quarters> quartersList) {
         return (List<Quarters>) quartersRepo.saveAll(quartersList);
+    }
+
+    @Override
+    public Quarters getQuartersCount(String sodaMachineId) {
+        return quartersRepo.findBySodaMachineId(sodaMachineId);
     }
 
 }

@@ -14,4 +14,6 @@ public interface SodaMachineService {
     Quarters updateQuartersToMachine(String sodaMachineId, Quarters quarters);
 
     List<Quarters>  addQuartersToMachine(List<Quarters> quartersList);
+
+    Quarters getQuartersCount(String sodaMachineId);
 }
